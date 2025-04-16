@@ -1,1 +1,24 @@
-<p>admin-interests works!</p>
+<div class="container-main">
+  <div class="title">
+    <p>Intereses</p>
+  </div>
+
+  <div class="form-container">
+    <form (submit)="saveInterest()" class="form-box">
+      <input type="text" class="input" placeholder="Interés" [(ngModel)]="myInterest.Interests" name="Interests" required><br />
+      <button type="submit" class="btn-primary">{{ btntxt }}</button>
+    </form>
+  </div>
+
+  <div class="job-list">
+    <div class="job-card" *ngFor="let interest of interestsList">
+      <div class="job-info">
+        <p><strong>Interés:</strong> {{ interest.Interests }}</p>
+      </div>
+      <div class="job-actions">
+        <button class="btn-secondary" (click)="editInterest(interest)">Editar</button>
+        <button class="btn-danger" (click)="deleteInterest(interest.id)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

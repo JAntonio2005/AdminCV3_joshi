@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "admin-cv3": {
+    "admin-cv": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/admin-cv3",
+            "outputPath": "dist/admin-cv",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -51,8 +51,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "2kB",
+                  "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "admin-cv3:build:production"
+              "buildTarget": "admin-cv:build:production"
             },
             "development": {
-              "buildTarget": "admin-cv3:build:development"
+              "buildTarget": "admin-cv:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -110,6 +110,6 @@
     }
   },
   "cli": {
-    "analytics": "aeba52ff-68ea-45dd-94c7-47591f18746a"
+    "analytics": false
   }
 }

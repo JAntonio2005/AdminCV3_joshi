@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'certificates', component: AdminCertificatesComponent },
   { path: 'skills', component: AdminSkillsComponent },
   { path: 'languages', component: AdminLanguagesComponent },
-  { path: 'interests', component: AdminInterestsComponent },
+  { path: 'interests', component: AdminInterestsComponent }
 ];
 
 @NgModule({

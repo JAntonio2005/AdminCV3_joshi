@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-
+//ds
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'admin-cv3';
+  title = 'admin-cv';
 }

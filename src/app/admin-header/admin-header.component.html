@@ -1,1 +1,28 @@
-<p>admin-header works!</p>
+<div class="admin-container">
+  <h2 class="admin-title">Editar Header</h2>
+
+  <form (ngSubmit)="updateHeader()" class="admin-form">
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="header.name" name="name" placeholder="Tu nombre" required />
+
+    <label>Meta / Objetivo</label>
+    <input type="text" [(ngModel)]="header.goalLife" name="goalLife" placeholder="Tu objetivo" required />
+
+    <label>Foto (URL)</label>
+    <input type="text" [(ngModel)]="header.photoUrl" name="photoUrl" placeholder="URL de la foto" />
+
+    <label>Email</label>
+    <input type="email" [(ngModel)]="header.email" name="email" placeholder="Correo electrónico" required />
+
+    <label>Teléfono</label>
+    <input type="text" [(ngModel)]="header.phoneNumber" name="phoneNumber" placeholder="Número de teléfono" />
+
+    <label>Ubicación</label>
+    <input type="text" [(ngModel)]="header.location" name="location" placeholder="Ubicación actual" />
+
+    <label>Red social (URL)</label>
+    <input type="text" [(ngModel)]="header.socialNetwork" name="socialNetwork" placeholder="Enlace a red social" />
+
+    <button type="submit">{{ btntxt }}</button>
+  </form>
+</div>

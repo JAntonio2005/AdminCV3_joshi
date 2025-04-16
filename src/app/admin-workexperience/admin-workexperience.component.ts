@@ -1,53 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WorkExperienceService } from '../services/work-experience-service/work-experience.service';
-import { WorkExperience } from '../models/work-experience/work-experience.model';
-import { map } from 'rxjs/operators';
+import { WorkExperience } from '../models/models/work-experience.models';
 
 @Component({
   selector: 'app-admin-workexperience',
   templateUrl: './admin-workexperience.component.html',
   styleUrls: ['./admin-workexperience.component.css']
 })
-export class AdminWorkexperienceComponent {
-  itemCount: number = 0;
-  btnTxt: string = "Agregar";
-  goalText: string = "";
-  workExperience: WorkExperience[] = [];
-  myWorkExperience: WorkExperience = new WorkExperience();
+export class AdminWorkexperienceComponent implements OnInit {
+  workExperiences: WorkExperience[] = [];
+  myExperience: WorkExperience = new WorkExperience();
+  btntxt: string = 'Agregar';
+  editId: string | null = null;
 
-  constructor(public workExperienceService: WorkExperienceService) {
-    console.log(this.workExperienceService);
-    this.workExperienceService.getWorkExperience().snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c => ({
-          id: c.payload.doc.id,
-          ...c.payload.doc.data()
-        }))
-      )
-    ).subscribe(data => {
-      this.workExperience = data;
-      console.log(this.workExperience);
+  constructor(private workService: WorkExperienceService) {}
+
+  ngOnInit(): void {
+    this.workService.getWorkExperience().subscribe(data => {
+      this.workExperiences = data;
     });
   }
-  AgregarJob(){
-    console.log(this.myWorkExperience);
-    this.workExperienceService.createWorkExperience(this.myWorkExperience).then(() => {
-      console.log('Created new item successfully!');
-    });
-  }
-  
-  deleteJob(id?: string) {
-    if (id) {
-      this.workExperienceService.deleteWorkExperience(id).then(() => {
-        console.log('delete item successfully!');
-      }).catch(error => {
-        console.error('Error deleting item:', error);
+
+  saveExperience(): void {
+    if (this.editId) {
+      this.workService.updateWorkExperience(this.editId, this.myExperience).then(() => {
+        this.resetForm();
       });
     } else {
-      console.log('ID is undefined or null, cannot delete.');
+      this.workService.addWorkExperience(this.myExperience).then(() => {
+        this.resetForm();
+      });
     }
-    console.log(id);
   }
-  
-  
+
+  editExperience(exp: WorkExperience): void {
+    this.myExperience = { ...exp };
+    this.editId = exp.id ?? null;
+    this.btntxt = 'Actualizar';
+  }
+
+  deleteExperience(id?: string): void {
+    if (!id) return;
+    this.workService.deleteWorkExperience(id);
+  }
+
+  resetForm(): void {
+    this.myExperience = new WorkExperience();
+    this.editId = null;
+    this.btntxt = 'Agregar';
+  }
 }

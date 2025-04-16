@@ -1,1 +1,26 @@
-<p>admin-skills works!</p>
+<div class="container-main">
+  <div class="title">
+    <p>Skills</p>
+  </div>
+
+  <div class="form-container">
+    <form (submit)="saveSkill()" class="form-box">
+      <input type="text" class="input" placeholder="Área" [(ngModel)]="mySkill.Areas" name="Areas" required /><br />
+      <input type="text" class="input" placeholder="Lenguaje" [(ngModel)]="mySkill.languagues" name="languagues" required /><br />
+      <button type="submit" class="btn-primary">{{ btntxt }}</button>
+    </form>
+  </div>
+
+  <div class="job-list">
+    <div class="job-card" *ngFor="let skill of skillsList">
+      <div class="job-info">
+        <p><strong>Área:</strong> {{ skill.Areas }}</p>
+        <p><strong>Lenguaje:</strong> {{ skill.languagues }}</p>
+      </div>
+      <div class="job-actions">
+        <button class="btn-secondary" (click)="editSkill(skill)">Editar</button>
+        <button class="btn-danger" (click)="deleteSkill(skill.id)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
