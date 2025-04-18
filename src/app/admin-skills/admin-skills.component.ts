@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Skills } from '../models/skills/skills.model';
 import { SkillsService } from '../services/skills-service/skills.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-skills',
   templateUrl: './admin-skills.component.html',
@@ -40,9 +40,21 @@ export class AdminSkillsComponent implements OnInit {
   }
 
   deleteSkill(id?: string): void {
-    if (!id) return;
-    this.skillsService.deleteSkill(id);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el registro permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed && id) {
+        this.skillsService.deleteSkill(id);
+        Swal.fire('Eliminado', 'El registro ha sido eliminado.', 'success');
+      }
+    });
   }
+  
 
   resetForm(): void {
     this.mySkill = new Skills();

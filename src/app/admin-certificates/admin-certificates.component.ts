@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Certificates } from '../models/certificates/certificates.model';
 import { CertificatesService } from '../services/certificates-service/certificates.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-certificates',
   templateUrl: './admin-certificates.component.html',
@@ -40,10 +40,20 @@ export class AdminCertificatesComponent implements OnInit {
   }
 
   deleteCertificate(id?: string): void {
-    if (!id) return;
-    this.certificateService.deleteCertificate(id);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el registro permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed && id) {
+        this.certificateService.deleteCertificate(id);
+        Swal.fire('Eliminado', 'El registro ha sido eliminado.', 'success');
+      }
+    });
   }
-
   resetForm(): void {
     this.myCertificate = new Certificates();
     this.editId = null;

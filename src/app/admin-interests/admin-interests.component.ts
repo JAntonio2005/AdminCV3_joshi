@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Interests } from '../models/interests/interests.model';
 import { InterestsService } from '../services/interests-service/interests.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-interests',
   templateUrl: './admin-interests.component.html',
@@ -40,8 +40,19 @@ export class AdminInterestsComponent implements OnInit {
   }
 
   deleteInterest(id?: string): void {
-    if (!id) return;
-    this.interestsService.deleteInterest(id);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el registro permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed && id) {
+        this.interestsService.deleteInterest(id);
+        Swal.fire('Eliminado', 'El registro ha sido eliminado.', 'success');
+      }
+    });
   }
 
   resetForm(): void {

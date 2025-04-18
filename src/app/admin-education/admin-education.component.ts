@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EducationService } from '../services/education-service/education.service';
 import { Education } from '../models/education/education.model';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-education',
   templateUrl: './admin-education.component.html',
@@ -40,10 +40,20 @@ export class AdminEducationComponent implements OnInit {
   }
 
   deleteEducation(id?: string): void {
-    if (!id) return;
-    this.educationService.deleteEducation(id);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el registro permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed && id) {
+        this.educationService.deleteEducation(id);
+        Swal.fire('Eliminado', 'El registro ha sido eliminado.', 'success');
+      }
+    });
   }
-
   resetForm(): void {
     this.myEducation = new Education();
     this.editId = null;

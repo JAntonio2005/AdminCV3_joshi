@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkExperienceService } from '../services/work-experience-service/work-experience.service';
 import { WorkExperience } from '../models/models/work-experience.models';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-workexperience',
   templateUrl: './admin-workexperience.component.html',
@@ -39,10 +39,23 @@ export class AdminWorkexperienceComponent implements OnInit {
     this.btntxt = 'Actualizar';
   }
 
-  deleteExperience(id?: string): void {
-    if (!id) return;
-    this.workService.deleteWorkExperience(id);
-  }
+
+
+deleteExperience(id: string): void {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: 'Esta acción eliminará el registro permanentemente.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.workService.deleteWorkExperience(id);
+      Swal.fire('Eliminado', 'El registro ha sido eliminado.', 'success');
+    }
+  });
+}
 
   resetForm(): void {
     this.myExperience = new WorkExperience();

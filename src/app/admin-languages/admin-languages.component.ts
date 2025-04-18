@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LanguagesService } from '../services/languages-service/languages.service';
 import { Languages } from '../models/languages/languages.model';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-languages',
   templateUrl: './admin-languages.component.html',
@@ -41,11 +42,21 @@ export class AdminLanguagesComponent implements OnInit {
     }
   }
 
-  deleteJob(id: string | undefined): void {
-    if (!id) return;
-    this.languagesService.deleteLanguage(id);
+  deleteJob(id?: string): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el registro permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed && id) {
+        this.languagesService.deleteLanguage(id);
+        Swal.fire('Eliminado', 'El registro ha sido eliminado.', 'success');
+      }
+    });
   }
-
   resetForm(): void {
     this.myLanguages = new Languages();
     this.editId = null;
