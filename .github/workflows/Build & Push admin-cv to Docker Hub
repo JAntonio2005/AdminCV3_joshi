@@ -1,8 +1,8 @@
 name: Build & Push admin-cv to Docker Hub
-
+# O la rama que uses
 on:
   push:
-    branches: [ "master" ] # O la rama que uses
+    branches: [ "master" ] 
 
 jobs:
   build-and-deploy:
