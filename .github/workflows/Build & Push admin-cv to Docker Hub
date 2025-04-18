@@ -1,0 +1,40 @@
+name: Build & Push admin-cv to Docker Hub
+
+on:
+  push:
+    branches: [ "master" ] # O la rama que uses
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular app
+        run: npm run build -- --configuration production
+
+      - name: Copy build to Apache image
+        run: |
+          docker pull httpd
+          docker create --name admincv-container httpd
+          docker cp dist/admin-cv/browser/. admincv-container:/usr/local/apache2/htdocs
+          docker commit admincv-container joseantonioortiz/admincv:latest
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push image to Docker Hub
+        run: docker push joseantonioortiz/admincv:latest
