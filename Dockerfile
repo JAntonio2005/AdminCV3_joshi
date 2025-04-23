@@ -1,3 +1,4 @@
+
 # Usa la imagen oficial de Apache
 FROM httpd:latest
 
@@ -8,4 +9,6 @@ RUN rm -rf /usr/local/apache2/htdocs/*
 COPY dist/admin-cv/browser/ /usr/local/apache2/htdocs/
 
 # Expone el puerto 80 (por si lo usas fuera del workflow)
+
 EXPOSE 80
+
